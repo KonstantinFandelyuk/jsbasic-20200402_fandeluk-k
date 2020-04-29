@@ -2,7 +2,8 @@ import createElement from "../../assets/lib/create-element.js";
 
 export default class ProductCard {
   constructor(product) {
-    let card = document.createElement("card");
+    let card = document.createElement("div");
+    card.classList.add("card");
     this.elem = card;
     this.id = product.id;
     this.render(product);
