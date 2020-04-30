@@ -24,9 +24,8 @@ export default class Carousel {
   }
   renderSlide(slides) {
     for (let slide of slides) {
-      this.id = slide.image.slice(0, -4);
       let templateSlider = `
-            <div class="carousel__slide" data-id="${this.id}">
+            <div class="carousel__slide" data-id="${slide.id}">
             <img src="/assets/images/carousel/${
               slide.image
             }" class="carousel__img" alt="slide">
@@ -57,6 +56,7 @@ export default class Carousel {
     //
     let carouselInner = this.elem.querySelector(".carousel__inner");
     let slideElement = this.elem.querySelectorAll(".carousel__slide").length;
+    console.log(slideElement);
     //
     let counter = 0;
     //   //
@@ -87,7 +87,7 @@ export default class Carousel {
             }px`;
             arrowLeft.style.display = "";
           }
-          if (counter == 3) {
+          if (counter == slideElement - 1) {
             arrowRight.style.display = "none";
           }
         }
@@ -109,9 +109,7 @@ export default class Carousel {
   }
   onClick(event) {
     if (event.target.closest(".carousel__button")) {
-      let slideAttribute = event.target.closest(".carousel__slide");
-      let slideId = slideAttribute.dataset.id;
-      console.log(slideId);
+      let slideId = event.target.closest(".carousel__slide").dataset.id;
       this.elem.dispatchEvent(
         new CustomEvent("product-add", {
           detail: slideId, // Уникальный идентификатора товара из объекта товара
