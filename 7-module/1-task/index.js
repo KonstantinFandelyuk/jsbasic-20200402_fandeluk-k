@@ -5,7 +5,7 @@ export default class RibbonMenu {
     this.categories = categories;
     //  Создаем элементы на страницы
     let ribbonElement = document.createElement("div");
-    let ribbonInnerElement = document.createElement("div");
+    let ribbonInnerElement = document.createElement("nav");
     //  Присваиваем классы для этих элементов
     ribbonElement.classList.add("ribbon");
     ribbonInnerElement.classList.add("ribbon__inner");
@@ -27,13 +27,14 @@ export default class RibbonMenu {
     }
   }
   renderArrow() {
-    let templateArrow = `<button class="ribbon__arrow ribbon__arrow_right ribbon__arrow_visible">
-    <img src="/assets/images/icons/angle-icon.svg" alt="icon">
-      </button>
-     <button class="ribbon__arrow ribbon__arrow_left">
+    let templateArrowRight = `<button class="ribbon__arrow ribbon__arrow_right ribbon__arrow_visible">
     <img src="/assets/images/icons/angle-icon.svg" alt="icon">
       </button>`;
-    this.elem.insertAdjacentHTML(`beforeend`, templateArrow);
+    let templateArrowLeft = ` <button class="ribbon__arrow ribbon__arrow_left ribbon__arrow_visible">
+      <img src="/assets/images/icons/angle-icon.svg" alt="icon">
+        </button>`;
+    this.elem.insertAdjacentHTML(`beforeend`, templateArrowRight);
+    this.elem.insertAdjacentHTML(`afterbegin`, templateArrowLeft);
   }
   scrollMenu() {
     let buttonRight = document.querySelector(".ribbon__arrow_right");
@@ -44,7 +45,7 @@ export default class RibbonMenu {
     let scrollLeft = this.ribbonInner.scrollLeft;
     let clientWidth = this.ribbonInner.clientWidth;
     let scrollRight = scrollWidth - scrollLeft - clientWidth;
-    // console.log(`scrollWidth - ${scrollWidth},
+    // console.log(`До нажатии на кнопку scrollWidth - ${scrollWidth},
     // scrollLeft - ${scrollLeft},
     // clientWidth - ${clientWidth},
     // scrollRight - ${scrollRight}`);
@@ -56,12 +57,22 @@ export default class RibbonMenu {
     if (button === buttonRight) {
       if (scrollRight > 0) {
         this.ribbonInner.scrollBy(350, 0);
+        // console.log(
+        //   "1-е scrollWidth - 2-e scrollLeft, 3-e clientWidth",
+        //   this.ribbonInner.scrollWidth,
+        //   this.ribbonInner.scrollLeft,
+        //   this.ribbonInner.clientWidth
+        // );
       }
     }
     if (button === buttonLeft) {
-      if (scrollLeft < scrollRight) {
+      if (this.ribbonInner.scrollLeft > 0) {
         this.ribbonInner.scrollBy(-350, 0);
-        console.log("wqwqw");
+        // console.log(
+        //   this.ribbonInner.scrollWidth,
+        //   this.ribbonInner.scrollLeft,
+        //   this.ribbonInner.clientWidth
+        // );
       }
     }
 
@@ -70,7 +81,7 @@ export default class RibbonMenu {
       : buttonRight.classList.add("ribbon__arrow_visible");
     //
     //
-    scrollLeft === 0
+    scrollLeft <= 0
       ? buttonLeft.classList.remove("ribbon__arrow_visible")
       : buttonLeft.classList.add("ribbon__arrow_visible");
   }
