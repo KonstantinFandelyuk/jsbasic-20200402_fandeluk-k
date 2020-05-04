@@ -18,9 +18,9 @@ export default class RibbonMenu {
     this.renderMenu(categories);
     this.renderArrow();
     //
-    this.elem.addEventListener("click", (event) => this.onClick(event));
     this.elem.addEventListener("click", (event) => this.scrollMenu(event));
     this.ribbonInner.addEventListener("scroll", () => this.arrowSwich());
+    this.elem.addEventListener("click", (event) => this.onClick(event));
   }
   renderMenu(categories) {
     for (let item of categories) {
@@ -32,7 +32,7 @@ export default class RibbonMenu {
     let templateArrowRight = `<button class="ribbon__arrow ribbon__arrow_right ribbon__arrow_visible">
     <img src="/assets/images/icons/angle-icon.svg" alt="icon">
       </button>`;
-    let templateArrowLeft = ` <button class="ribbon__arrow ribbon__arrow_left ribbon__arrow_visible">
+    let templateArrowLeft = ` <button class="ribbon__arrow ribbon__arrow_left ">
       <img src="/assets/images/icons/angle-icon.svg" alt="icon">
         </button>`;
     this.elem.insertAdjacentHTML(`beforeend`, templateArrowRight);
@@ -75,25 +75,30 @@ export default class RibbonMenu {
     }
   }
   onClick(event) {
-    event.preventDefault();
-    let categoriesId = event.target.closest(".ribbon__item").dataset.id;
-    let ribbonEl = event.target.closest(".ribbon__item");
-    let ribbonItem = document.querySelectorAll(".ribbon__item");
+    let button = event.target.closest(".ribbon__arrow");
+    if (!button) {
+      event.preventDefault();
+      let categoriesId = event.target.closest(".ribbon__item").dataset.id;
+      let ribbonEl = event.target.closest(".ribbon__item");
+      let ribbonItem = document.querySelectorAll(".ribbon__item");
 
-    if (ribbonEl) {
-      ribbonItem.forEach(function (element) {
-        if (element.classList.contains("ribbon__item_active")) {
-          element.classList.remove("ribbon__item_active");
-        }
-      });
-      ribbonEl.classList.add("ribbon__item_active");
+      if (ribbonEl) {
+        ribbonItem.forEach(function (element) {
+          if (element.classList.contains("ribbon__item_active")) {
+            element.classList.remove("ribbon__item_active");
+          }
+        });
+        ribbonEl.classList.add("ribbon__item_active");
+      }
+
+      this.elem.dispatchEvent(
+        new CustomEvent("ribbon-select", {
+          detail: categoriesId, // Уникальный идентификатора товара из объекта товара
+          bubbles: true, // это событие всплывает - это понадобится в дальнейшем
+        })
+      );
+    } else {
+      return false;
     }
-
-    this.elem.dispatchEvent(
-      new CustomEvent("ribbon-select", {
-        detail: categoriesId, // Уникальный идентификатора товара из объекта товара
-        bubbles: true, // это событие всплывает - это понадобится в дальнейшем
-      })
-    );
   }
 }
