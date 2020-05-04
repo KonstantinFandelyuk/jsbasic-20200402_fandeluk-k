@@ -19,9 +19,7 @@ export default class RibbonMenu {
     this.renderArrow();
     //
     this.elem.addEventListener("click", (event) => this.scrollMenu(event));
-    this.ribbonInnerElement.addEventListener("click", (event) =>
-      this.arrowSwich(event)
-    );
+    this.ribbonInner.addEventListener("scroll", (event) => this.arrowSwich());
     this.elem.addEventListener("click", (event) => this.onClick(event));
   }
   renderMenu(categories) {
@@ -45,36 +43,35 @@ export default class RibbonMenu {
     let buttonLeft = document.querySelector(".ribbon__arrow_left");
     let button = event.target.closest(".ribbon__arrow");
     //
-    let scrollWidth = this.ribbonInner.scrollWidth;
-    let scrollLeft = this.ribbonInner.scrollLeft;
-    let clientWidth = this.ribbonInner.clientWidth;
-    let scrollRight = scrollWidth - scrollLeft - clientWidth;
-
-    console.log(window.pageYOffset);
     if (!button) {
       return;
     }
     //
-
     if (button === buttonRight) {
       this.ribbonInner.scrollBy(350, 0);
     }
-
-    if (scrollRight > 1) {
-      buttonRight.classList.add("ribbon__arrow_visible");
-    } else if (scrollRight <= 1) {
-      buttonRight.classList.remove("ribbon__arrow_visible");
-    }
-
     if (button === buttonLeft) {
       this.ribbonInner.scrollBy(-350, 0);
     }
   }
-  arrowSwich(event) {
-    if (this.ribbonInner.scrollLeft > 0) {
-      buttonLeft.classList.add("ribbon__arrow_visible");
-    } else if (scrollLeft <= 0) {
+  arrowSwich() {
+    let buttonRight = document.querySelector(".ribbon__arrow_right");
+    let buttonLeft = document.querySelector(".ribbon__arrow_left");
+    //
+    let scrollWidth = this.ribbonInner.scrollWidth;
+    let scrollLeft = this.ribbonInner.scrollLeft;
+    let clientWidth = this.ribbonInner.clientWidth;
+    let scrollRight = scrollWidth - scrollLeft - clientWidth;
+    //
+    if (scrollRight <= 1) {
+      buttonRight.classList.remove("ribbon__arrow_visible");
+    } else {
+      buttonRight.classList.add("ribbon__arrow_visible");
+    }
+    if (scrollLeft <= 1) {
       buttonLeft.classList.remove("ribbon__arrow_visible");
+    } else {
+      buttonLeft.classList.add("ribbon__arrow_visible");
     }
   }
   onClick(event) {
