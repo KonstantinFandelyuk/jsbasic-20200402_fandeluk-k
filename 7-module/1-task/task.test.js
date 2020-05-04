@@ -1,7 +1,7 @@
 import categories from "./categories.js";
 import RibbonMenu from "./index.js";
 
-fdescribe("7-module-1-task", () => {
+describe("7-module-1-task", () => {
   let sut;
 
   let ribbonInner;

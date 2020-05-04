@@ -18,9 +18,9 @@ export default class RibbonMenu {
     this.renderMenu(categories);
     this.renderArrow();
     //
-    this.elem.addEventListener("click", (event) => this.scrollMenu(event));
-    this.ribbonInner.addEventListener("scroll", (event) => this.arrowSwich());
     this.elem.addEventListener("click", (event) => this.onClick(event));
+    this.elem.addEventListener("click", (event) => this.scrollMenu(event));
+    this.ribbonInner.addEventListener("scroll", () => this.arrowSwich());
   }
   renderMenu(categories) {
     for (let item of categories) {
