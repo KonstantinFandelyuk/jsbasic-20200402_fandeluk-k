@@ -19,6 +19,10 @@ export default class RibbonMenu {
     this.renderArrow();
     //
     this.elem.addEventListener("click", (event) => this.scrollMenu(event));
+    this.ribbonInnerElement.addEventListener("click", (event) =>
+      this.arrowSwich(event)
+    );
+    this.elem.addEventListener("click", (event) => this.onClick(event));
   }
   renderMenu(categories) {
     for (let item of categories) {
@@ -45,44 +49,54 @@ export default class RibbonMenu {
     let scrollLeft = this.ribbonInner.scrollLeft;
     let clientWidth = this.ribbonInner.clientWidth;
     let scrollRight = scrollWidth - scrollLeft - clientWidth;
-    // console.log(`До нажатии на кнопку scrollWidth - ${scrollWidth},
-    // scrollLeft - ${scrollLeft},
-    // clientWidth - ${clientWidth},
-    // scrollRight - ${scrollRight}`);
+
+    console.log(window.pageYOffset);
     if (!button) {
       return;
     }
     //
 
     if (button === buttonRight) {
-      if (scrollRight > 0) {
-        this.ribbonInner.scrollBy(350, 0);
-        // console.log(
-        //   "1-е scrollWidth - 2-e scrollLeft, 3-e clientWidth",
-        //   this.ribbonInner.scrollWidth,
-        //   this.ribbonInner.scrollLeft,
-        //   this.ribbonInner.clientWidth
-        // );
-      }
-    }
-    if (button === buttonLeft) {
-      if (this.ribbonInner.scrollLeft > 0) {
-        this.ribbonInner.scrollBy(-350, 0);
-        // console.log(
-        //   this.ribbonInner.scrollWidth,
-        //   this.ribbonInner.scrollLeft,
-        //   this.ribbonInner.clientWidth
-        // );
-      }
+      this.ribbonInner.scrollBy(350, 0);
     }
 
-    scrollRight === 0
-      ? buttonRight.classList.remove("ribbon__arrow_visible")
-      : buttonRight.classList.add("ribbon__arrow_visible");
-    //
-    //
-    scrollLeft <= 0
-      ? buttonLeft.classList.remove("ribbon__arrow_visible")
-      : buttonLeft.classList.add("ribbon__arrow_visible");
+    if (scrollRight > 1) {
+      buttonRight.classList.add("ribbon__arrow_visible");
+    } else if (scrollRight <= 1) {
+      buttonRight.classList.remove("ribbon__arrow_visible");
+    }
+
+    if (button === buttonLeft) {
+      this.ribbonInner.scrollBy(-350, 0);
+    }
+  }
+  arrowSwich(event) {
+    if (this.ribbonInner.scrollLeft > 0) {
+      buttonLeft.classList.add("ribbon__arrow_visible");
+    } else if (scrollLeft <= 0) {
+      buttonLeft.classList.remove("ribbon__arrow_visible");
+    }
+  }
+  onClick(event) {
+    event.preventDefault();
+    let categoriesId = event.target.closest(".ribbon__item").dataset.id;
+    let ribbonEl = event.target.closest(".ribbon__item");
+    let ribbonItem = document.querySelectorAll(".ribbon__item");
+
+    if (ribbonEl) {
+      ribbonItem.forEach(function (element) {
+        if (element.classList.contains("ribbon__item_active")) {
+          element.classList.remove("ribbon__item_active");
+        }
+      });
+      ribbonEl.classList.add("ribbon__item_active");
+    }
+
+    this.elem.dispatchEvent(
+      new CustomEvent("ribbon-select", {
+        detail: categoriesId, // Уникальный идентификатора товара из объекта товара
+        bubbles: true, // это событие всплывает - это понадобится в дальнейшем
+      })
+    );
   }
 }
