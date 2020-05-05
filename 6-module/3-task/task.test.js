@@ -1,7 +1,7 @@
-import slides from './slides.js';
-import Carousel from './index.js';
+import slides from "./slides.js";
+import Carousel from "./index.js";
 
-describe('6-module-3-task', () => {
+describe("6-module-3-task", () => {
   let sut;
 
   let carouselInner;
@@ -17,33 +17,33 @@ describe('6-module-3-task', () => {
     sut = new Carousel(testSlides);
     document.body.append(sut.elem);
 
-    carouselInner = sut.elem.querySelector('.carousel__inner');
-    sut.elem.style.width = '500px';
+    carouselInner = sut.elem.querySelector(".carousel__inner");
+    sut.elem.style.width = "500px";
 
-    carouselArrowRight = sut.elem.querySelector('.carousel__arrow_right');
-    carouselArrowLeft = sut.elem.querySelector('.carousel__arrow_left');
+    carouselArrowRight = sut.elem.querySelector(".carousel__arrow_right");
+    carouselArrowLeft = sut.elem.querySelector(".carousel__arrow_left");
 
-    clickEvent = new MouseEvent('click', { bubbles: true });
+    clickEvent = new MouseEvent("click", { bubbles: true });
   });
 
   afterEach(() => {
     sut.elem.remove();
   });
 
-  describe('отрисовка вёрстки после создания', () => {
+  describe("отрисовка вёрстки после создания", () => {
     it('должна добавлять корневой элемент в свойство "elem"', () => {
-      expect(sut.elem.classList.contains('carousel')).toBe(true);
+      expect(sut.elem.classList.contains("carousel")).toBe(true);
     });
 
-    it('должна отрисовать все слайды', () => {
-      let slidesElements = sut.elem.querySelectorAll('.carousel__slide');
+    it("должна отрисовать все слайды", () => {
+      let slidesElements = sut.elem.querySelectorAll(".carousel__slide");
 
       expect(slidesElements.length).toBe(3);
     });
   });
 
-  describe('переключение слайдов', () => {
-    describe('переключение вперёд', () => {
+  describe("переключение слайдов", () => {
+    describe("переключение вперёд", () => {
       it('при клике по кнопке "вперёд", должна переключать на один слайд вперёд', () => {
         carouselArrowRight.dispatchEvent(clickEvent);
 
@@ -51,7 +51,7 @@ describe('6-module-3-task', () => {
       });
     });
 
-    describe('переключение назад', () => {
+    describe("переключение назад", () => {
       beforeEach(() => {
         carouselArrowRight.dispatchEvent(clickEvent);
         carouselArrowRight.dispatchEvent(clickEvent);
@@ -60,20 +60,20 @@ describe('6-module-3-task', () => {
       it('при клике по кнопке "назад", должна переключать на один слайд назад', () => {
         carouselArrowLeft.dispatchEvent(clickEvent);
 
-        expect(carouselInner.style.transform).toBe('translateX(-500px)');
+        expect(carouselInner.style.transform).toBe("translateX(-500px)");
       });
     });
 
-    describe('скрытие стрелок переключения', () => {
-      it('в исходном состоянии скрывает стрелку переключения назад', () => {
-        expect(carouselArrowLeft.style.display).toBe('none');
+    describe("скрытие стрелок переключения", () => {
+      it("в исходном состоянии скрывает стрелку переключения назад", () => {
+        expect(carouselArrowLeft.style.display).toBe("none");
       });
 
-      it('при достижении крайнего слайда, должна скрыть стрелку переключения вперёд', () => {
+      it("при достижении крайнего слайда, должна скрыть стрелку переключения вперёд", () => {
         carouselArrowRight.dispatchEvent(clickEvent);
         carouselArrowRight.dispatchEvent(clickEvent);
 
-        expect(carouselArrowRight.style.display).toBe('none');
+        expect(carouselArrowRight.style.display).toBe("none");
       });
     });
   });
@@ -84,16 +84,20 @@ describe('6-module-3-task', () => {
     beforeEach(() => {
       productAddEvent = null;
 
-      document.body.addEventListener('product-add', (event) => {
-        productAddEvent = event;
-      }, { once: true });
+      document.body.addEventListener(
+        "product-add",
+        (event) => {
+          productAddEvent = event;
+        },
+        { once: true }
+      );
 
-      let addButton = sut.elem.querySelector('.carousel__button');
+      let addButton = sut.elem.querySelector(".carousel__button");
 
       addButton.dispatchEvent(clickEvent);
     });
 
-    it('после клика по кнопке, должно быть создано событие', () => {
+    it("после клика по кнопке, должно быть создано событие", () => {
       expect(productAddEvent instanceof CustomEvent).toBe(true);
     });
 

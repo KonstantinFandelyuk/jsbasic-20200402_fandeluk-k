@@ -4,12 +4,9 @@ export default class Modal {
   constructor() {
     // Получаем элементы
     let container = document.querySelector(".container");
-    // Создаем элементы
-    let modal = document.createElement("div");
-    //
-    modal.classList.add("modal");
     //
     let template = `
+    <div class="modal">
     <div class="modal__overlay"></div>
     <div class="modal__inner">
       <div class="modal__header">
@@ -23,20 +20,45 @@ export default class Modal {
       <div class="modal__body">
         A сюда нужно добавлять содержимое тела модального окна
       </div>
+      </div>
     </div>
       `;
     // Делаем ссылки на элементы
     this.template = template;
     this.container = container;
-    this.modal = modal;
     // Методы
-    this.container.append(this.modal);
+    this.container.insertAdjacentHTML(`beforeend`, template);
+    this.container.addEventListener("click", (event) => this.close(event));
+    this.container.addEventListener("keydown", (event) =>
+      this.closeModal(event)
+    );
+    //
   }
-  setTitle() {
-    console.log(this.modal.querySelector(".modal__title"));
+  setTitle(title) {
+    let titleElement = this.container.querySelector(".modal__title");
+    titleElement.textContent = `${title}`;
   }
   open() {
-    document.body.classList.toggle("is-modal-open");
-    this.modal.insertAdjacentHTML(`beforeend`, this.template);
+    document.body.classList.add("is-modal-open");
+  }
+  setBody(qwe) {
+    let bodyElement = this.container.querySelector(".modal__body");
+    bodyElement.innerHTML = "";
+    bodyElement.innerHTML = `${qwe}`;
+  }
+  close(event) {
+    let close = event.target.closest(".modal__close");
+    let modal = document.querySelector(".modal");
+    if (close) {
+      document.body.classList.remove("is-modal-open");
+      modal.remove();
+    }
+  }
+  closeModal(event) {
+    let modal = document.querySelector(".modal");
+    if (event.code === "Escape") {
+      document.body.classList.remove("is-modal-open");
+      modal.remove();
+    }
   }
 }
