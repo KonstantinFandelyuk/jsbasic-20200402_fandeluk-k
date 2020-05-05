@@ -75,21 +75,20 @@ export default class RibbonMenu {
     }
   }
   onClick(event) {
-    let button = event.target.closest(".ribbon__arrow");
-    if (!button) {
-      event.preventDefault();
+    event.preventDefault();
+    //
+    let ribbonEl = event.target.closest(".ribbon__item");
+    let ribbonItem = document.querySelectorAll(".ribbon__item");
+    //
+    if (ribbonEl) {
+      ribbonEl.classList.add("ribbon__item_active");
+      //
       let categoriesId = event.target.closest(".ribbon__item").dataset.id;
-      let ribbonEl = event.target.closest(".ribbon__item");
-      let ribbonItem = document.querySelectorAll(".ribbon__item");
-
-      if (ribbonEl) {
-        ribbonItem.forEach(function (element) {
-          if (element.classList.contains("ribbon__item_active")) {
-            element.classList.remove("ribbon__item_active");
-          }
-        });
-        ribbonEl.classList.add("ribbon__item_active");
-      }
+      ribbonItem.forEach(function (element) {
+        if (element.classList.contains("ribbon__item_active")) {
+          element.classList.remove("ribbon__item_active");
+        }
+      });
 
       this.elem.dispatchEvent(
         new CustomEvent("ribbon-select", {
@@ -97,8 +96,6 @@ export default class RibbonMenu {
           bubbles: true, // это событие всплывает - это понадобится в дальнейшем
         })
       );
-    } else {
-      return false;
     }
   }
 }

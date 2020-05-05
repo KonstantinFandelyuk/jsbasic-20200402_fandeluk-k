@@ -9,11 +9,8 @@ export default class Modal {
     this.container = container;
     this.modalBody = modalBodyElement;
     // Методы
-    this.openModal(event);
-    this.setTitle();
-    this.setBody(modalBody);
   }
-  openModal(event) {
+  open() {
     let button = event.target.closest("button");
     let template = `  <div class="modal">
     <div class="modal__overlay"></div>
@@ -34,12 +31,5 @@ export default class Modal {
       document.body.classList.toggle("is-modal-open");
       this.container.insertAdjacentHTML(`beforeend`, template);
     }
-  }
-  setTitle(title) {
-    let titleElement = document.querySelector(".modal__title");
-    titleElement.innerHTML = `${title}`;
-  }
-  setBody(modalBody) {
-    this.modalBodyElement.innerHTML = `${modalBody}`;
   }
 }
