@@ -4,14 +4,10 @@ export default class Modal {
   constructor() {
     // Получаем элементы
     let container = document.querySelector(".container");
-    let modalBodyElement = document.querySelector(".modal__body");
-    // Делаем ссылки на элементы
-    this.container = container;
-    this.modalBody = modalBodyElement;
-    // Методы
-  }
-  open() {
-    let button = event.target.closest("button");
+    let title1 = container.querySelector(".modal__title");
+    this.title1 = title1;
+    console.log(title1);
+    //
     let template = `  <div class="modal">
     <div class="modal__overlay"></div>
     <div class="modal__inner">
@@ -27,9 +23,18 @@ export default class Modal {
         A сюда нужно добавлять содержимое тела модального окна
       </div>
     </div>`;
-    if (button) {
-      document.body.classList.toggle("is-modal-open");
-      this.container.insertAdjacentHTML(`beforeend`, template);
-    }
+    // Делаем ссылки на элементы
+    this.template = template;
+    this.container = container;
+    // Методы
+  }
+  setTitle(title) {
+    // let title1 = this.container.querySelector("h3");
+    // // title1.textContent = `${title}`;
+    // console.log(title1);
+  }
+  open() {
+    document.body.classList.toggle("is-modal-open");
+    this.container.insertAdjacentHTML(`beforeend`, this.template);
   }
 }
