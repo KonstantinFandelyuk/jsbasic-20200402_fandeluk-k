@@ -28,9 +28,9 @@ export default class Modal {
     this.container = container;
     // Методы
     this.container.insertAdjacentHTML(`beforeend`, template);
-    this.container.addEventListener("click", (event) => this.close(event));
+    this.container.addEventListener("click", (event) => this.closeX(event));
     this.container.addEventListener("keydown", (event) =>
-      this.closeModal(event)
+      this.closeEscape(event)
     );
     //
   }
@@ -41,12 +41,12 @@ export default class Modal {
   open() {
     document.body.classList.add("is-modal-open");
   }
-  setBody(qwe) {
-    let bodyElement = this.container.querySelector(".modal__body");
-    bodyElement.innerHTML = "";
-    bodyElement.innerHTML = `${qwe}`;
-  }
-  close(event) {
+  // setBody(qwe) {
+  //   let bodyElement = this.container.querySelector(".modal__body");
+  //   bodyElement.innerHTML = "";
+  //   bodyElement.innerHTML = `${qwe}`;
+  // }
+  closeX(event) {
     let close = event.target.closest(".modal__close");
     let modal = document.querySelector(".modal");
     if (close) {
@@ -54,7 +54,7 @@ export default class Modal {
       modal.remove();
     }
   }
-  closeModal(event) {
+  closeEscape(event) {
     let modal = document.querySelector(".modal");
     if (event.code === "Escape") {
       document.body.classList.remove("is-modal-open");
