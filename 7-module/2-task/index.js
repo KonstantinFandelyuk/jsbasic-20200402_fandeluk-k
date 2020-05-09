@@ -3,7 +3,6 @@ import createElement from "../../assets/lib/create-element.js";
 export default class Modal {
   constructor() {
     // Получаем элементы
-    let container = document.querySelector(".container");
     let modal = document.createElement("div");
     modal.classList.add("modal");
     //
@@ -25,42 +24,47 @@ export default class Modal {
       `;
     // Делаем ссылки на элементы
     this.template = template;
-    this.container = container;
     this.modal = modal;
     // Методы
     this.modal.insertAdjacentHTML(`beforeend`, template);
-    this.container.addEventListener("click", (event) => this.closeX(event));
-    this.container.addEventListener("keydown", (event) =>
+    this.modal.addEventListener("click", (event) => this.closeX(event));
+    document.body.addEventListener("keydown", (event) =>
       this.closeEscape(event)
     );
     //
   }
   setTitle(title) {
     let titleElement = this.modal.querySelector(".modal__title");
-    titleElement.textContent = `${title}`;
+    console.log(titleElement);
+    titleElement.textContent = title;
   }
   open() {
     document.body.classList.add("is-modal-open");
-    this.container.append(this.modal);
+    document.body.append(this.modal);
   }
-  // setBody(qwe) {
-  //   let bodyElement = this.container.querySelector(".modal__body");
-  //   bodyElement.innerHTML = "";
-  //   bodyElement.innerHTML = `${qwe}`;
-  // }
+  setBody(modalBody) {
+    let bodyElement = this.modal.querySelector(".modal__body");
+    bodyElement.innerHTML = "";
+    bodyElement.append(modalBody);
+  }
   closeX(event) {
     let close = event.target.closest(".modal__close");
-    let modal = document.querySelector(".modal");
     if (close) {
       document.body.classList.remove("is-modal-open");
-      modal.remove();
+      this.modal.remove();
     }
   }
   closeEscape(event) {
-    let modal = document.querySelector(".modal");
-    if (event.code === "Escape") {
+    if (
+      (event.key === "Escape" || event.keyCode === 27) &&
+      document.body.classList.contains("is-modal-open")
+    ) {
       document.body.classList.remove("is-modal-open");
-      modal.remove();
+      this.modal.remove();
     }
+  }
+  close() {
+    document.body.classList.remove("is-modal-open");
+    this.modal.remove();
   }
 }
