@@ -14,11 +14,9 @@ export default class Modal {
           <img src="/assets/images/icons/cross-icon.svg" alt="close-icon" />
         </button>
         <h3 class="modal__title">
-          Вот сюда нужно добавлять заголовок
         </h3>
       </div>
       <div class="modal__body">
-        A сюда нужно добавлять содержимое тела модального окна
       </div>
       </div>
       `;
@@ -28,14 +26,11 @@ export default class Modal {
     // Методы
     this.modal.insertAdjacentHTML(`beforeend`, template);
     this.modal.addEventListener("click", (event) => this.closeX(event));
-    document.body.addEventListener("keydown", (event) =>
-      this.closeEscape(event)
-    );
+    window.addEventListener("keydown", (event) => this.closeEscape(event));
     //
   }
   setTitle(title) {
     let titleElement = this.modal.querySelector(".modal__title");
-    console.log(titleElement);
     titleElement.textContent = title;
   }
   open() {
@@ -55,12 +50,9 @@ export default class Modal {
     }
   }
   closeEscape(event) {
-    if (
-      (event.key === "Escape" || event.keyCode === 27) &&
-      document.body.classList.contains("is-modal-open")
-    ) {
-      document.body.classList.remove("is-modal-open");
+    if (event.code === "Escape") {
       this.modal.remove();
+      document.body.classList.remove("is-modal-open");
     }
   }
   close() {
