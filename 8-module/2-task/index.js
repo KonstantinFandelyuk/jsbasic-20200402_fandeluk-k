@@ -4,12 +4,7 @@ import ProductCard from "../../6-module/2-task/index.js";
 export default class ProductGrid {
   constructor(products) {
     this.products = products;
-    this.filters = {
-      noNuts: true, // true/false
-      vegeterianOnly: false, // true/false
-      maxSpiciness: 3, // числа от 0 до 4
-      category: "soups", // уникальный идентификатор категории товара
-    };
+    this.filters = {};
     let productGrid = document.createElement("div");
     let productGridInner = document.createElement("div");
     //
@@ -44,6 +39,10 @@ export default class ProductGrid {
     }
   }
   updateFilter(filters) {
-    console.log(this.products.nuts === filters.noNuts);
+    for (let card of this.products) {
+      if (filters.noNuts == card.nuts) {
+        console.log(card);
+      }
+    }
   }
 }
