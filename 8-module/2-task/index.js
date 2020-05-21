@@ -16,32 +16,19 @@ export default class ProductGrid {
     this.elem.append(this.productGridInner);
     //
     this.render(products);
-    this.updateFilter(this.filters);
   }
   render() {
     for (let card of this.products) {
-      this.imageUrl = `/assets/images/products/${card.image}`;
-      let template = `
-      <div class="card">
-      <div class="card__top">
-          <img src="${this.imageUrl}" class="card__image" alt="product">
-          <span class="card__price">€${card.price.toFixed(2)}</span>
-      </div>
-      <div class="card__body">
-          <div class="card__title">${card.name}</div>
-          <button type="button" class="card__button">
-              <img src="/assets/images/icons/plus-icon.svg" alt="icon">
-          </button>
-      </div>
-      </div>
-     `;
-      this.productGridInner.insertAdjacentHTML(`beforeend`, template);
+      let itemCard = new ProductCard(card);
+      this.productGridInner.insertAdjacentElement(`beforeend`, itemCard.elem);
     }
   }
   updateFilter(filters) {
     for (let card of this.products) {
-      if (filters.noNuts == card.nuts) {
-        console.log(card);
+      if (filters.noNuts === card.nuts) {
+        this.productGridInner.innerHTML = "";
+        let itemCard = new ProductCard(card);
+        this.productGridInner.insertAdjacentElement(`beforeend`, itemCard.elem);
       }
     }
   }

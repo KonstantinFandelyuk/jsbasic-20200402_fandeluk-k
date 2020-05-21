@@ -44,6 +44,9 @@ export default class CartIcon {
   }
 
   updatePosition() {
+    if (this.elem.offsetWidth === 0) {
+      return false;
+    }
     let initialTopCoord = this.elem.getBoundingClientRect().top;
     let isMobile = document.documentElement.clientWidth <= 767;
     let leftIndent =
