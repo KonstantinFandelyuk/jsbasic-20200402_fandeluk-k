@@ -24,10 +24,30 @@ export default class ProductGrid {
     }
   }
   updateFilter(filters) {
+    document.querySelector(".products-grid__inner").innerHTML = "";
     for (let card of this.products) {
-      if (filters.noNuts === card.nuts) {
-        this.productGridInner.innerHTML = "";
-        let itemCard = new ProductCard(card);
+      let itemCard = new ProductCard(card);
+
+      if (filters.noNuts === true) {
+        if (card.nuts === false || card.nuts === undefined) {
+          this.productGridInner.insertAdjacentElement(
+            `beforeend`,
+            itemCard.elem
+          );
+        }
+      }
+      if (filters.vegeterianOnly === true) {
+        if (card.vegeterian === true || card.vegeterian != undefined) {
+          this.productGridInner.insertAdjacentElement(
+            `beforeend`,
+            itemCard.elem
+          );
+        }
+      }
+      if (card.spiciness <= filters.maxSpiciness) {
+        this.productGridInner.insertAdjacentElement(`beforeend`, itemCard.elem);
+      }
+      if (filters.category === card.category) {
         this.productGridInner.insertAdjacentElement(`beforeend`, itemCard.elem);
       }
     }

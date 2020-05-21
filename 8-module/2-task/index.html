@@ -13,13 +13,12 @@
 
 <body>
   <div class="container" id="container"></div>
-
   <script type="module">
+
     import ProductGrid from './index.js';
     import products from './products.js';
 
     let productGrid = new ProductGrid(products);
-
     container.append(productGrid.elem);
 
   </script>
