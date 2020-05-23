@@ -63,7 +63,7 @@
   right: 0;
 }
 
-.slider__steps > span {
+.slider__steps>span {
   background-color: var(--color-black-dark);
   display: inline-flex;
   width: 2px;
@@ -72,12 +72,12 @@
   transition: 0.2s height;
 }
 
-.slider__steps > span:first-child,
-.slider__steps > span:last-child {
+.slider__steps>span:first-child,
+.slider__steps>span:last-child {
   margin-left: 0;
 }
 
-.slider__steps > .slider__step-active {
+.slider__steps>.slider__step-active {
   background-color: var(--color-black-light);
   height: 14px;
 }

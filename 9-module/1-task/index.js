@@ -5,5 +5,13 @@
  */
 
 export default function promiseClick(button) {
-  // ваш код...
+  return new Promise((resolve, reject) => {
+    button.addEventListener(
+      "click",
+      function (event) {
+        resolve(event);
+      },
+      { once: true }
+    );
+  });
 }
