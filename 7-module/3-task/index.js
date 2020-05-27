@@ -1,8 +1,6 @@
 export default class StepSlider {
   constructor({ steps, value = 0 }) {
     //
-    let container = document.querySelector(".container");
-    this.container = container;
     let slider = document.createElement("div");
     slider.classList.add("slider");
     this.steps = steps;
@@ -25,17 +23,16 @@ export default class StepSlider {
     this.elem.insertAdjacentHTML(`beforeend`, template);
     //
     this.stepsSpan();
-    this.elem.addEventListener("click", (event) => this.SwitchSlide(event));
+    this.elem.addEventListener("click", (event) => this.switchSlide(event));
   }
   stepsSpan() {
     let firstSpan = this.elem.querySelector(".slider__steps");
-    console.log(firstSpan);
     for (let i = 0; i < this.steps - 1; i++) {
       let spanElement = document.createElement("span");
       firstSpan.insertAdjacentElement("beforeend", spanElement);
     }
   }
-  SwitchSlide() {
+  switchSlide() {
     // Для начала определим расстояние от начала элемента слайдера до места, на котором находился курсор в момент клика. Мы будем использовать координаты относительно окна. Возьмем координату по горизонтали (из свойства clientX объекта события) и вычтем из нее координату крайней левой точки слайдера, которую получим с помощью метода getBoundingClientRect():
     let left = event.clientX - this.elem.getBoundingClientRect().left;
     // В итоге мы получим расстояние в пикселях от начала слайдера до места клика. Но нам нужно выбрать значение слайдера из дипазона – 0, 1, 2, 3, 4. Поэтому рассчитаем относительное значение, взяв за основу ширину слайдера:
